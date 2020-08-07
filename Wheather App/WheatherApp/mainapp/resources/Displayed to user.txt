@@ -1,0 +1,15 @@
+This all information is to be provided to the user
+
+city
+weather_description_for_user
+temperature
+min_temperature
+max_temperature
+sunrise
+sunset
+cloudiness
+visibility
+wind_speed
+wind_direction
+time_of_update_time
+time_of_update_day

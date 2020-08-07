@@ -55,9 +55,10 @@ def weather(request):
                 # home page with alert fill city properly
                 alert['status'] = 1
                 alert['msg'] = 'Fill the prefered information properly'
-                return redirect('/', context={'alert':alert})
+                return redirect('/', context={'dj_alert':alert})
                 
-        # access the link and fetch the data         
+        # access the link and fetch the data 
+        # wdata is a dictionary
         try:
             wdata = access.weather_data()
         except:
@@ -65,7 +66,7 @@ def weather(request):
             # redirect to main page with alert no such city found
             alert['status'] = 1
             alert['msg'] = 'It seems you have misspelled your city. Please try once again.'
-            return redirect('/', context={'alert':alert})
+            return redirect('/', context={'dj_alert':alert})
         else:
             if request.session['is_ajax']:
                 # Trigger this if ajax is used.
@@ -73,7 +74,10 @@ def weather(request):
                 return HttpResponse()
             else:
                 # Return this if city is used
-                return HttpResponse("<h1>Triggered due to city populated</h1>")
+                return render(request, 'mainapp/mainapp.html',context={
+                    'wdata':wdata,
+                    'dj_alert':alert
+                })
     else:
         # if request is a get request then check weather ajax is active or not as it is redirected 
         # from javascript code. If no ajax, then redirect them to home page.
@@ -81,8 +85,11 @@ def weather(request):
         if request.session['is_ajax']:
             request.session['is_ajax']=0
             wdata = request.session['wdata']
-            return HttpResponse('<h1>Triggered due to location is set</h1>')
+            return render(request, 'mainapp/mainapp.html',context={
+                'wdata':wdata,
+                'dj_alert':alert
+            })
         else:
             alert['status'] = 1
             alert['msg'] = 'Hey man!! What are you tring to do? Follow the procedure.'
-            return redirect('/', context={'alert':alert})
+            return redirect('/', context={'dj_alert':alert})
