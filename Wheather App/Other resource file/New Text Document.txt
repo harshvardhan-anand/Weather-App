@@ -1,0 +1,48 @@
+from bs4 import BeautifulSoup as bs
+from urllib.request import urlopen
+import json
+from datetime import datetime
+from dateutil import tz
+
+city_name = 'Al Bayda'.replace(' ','%20')  #user
+your_api_key = 'ef9bfadddd3a930acfa7d1ee64fc0bef'
+units = 'metric'  #user
+language = 'en'  #user
+prefered_timezone = 'IST'  # default IST  #user
+
+req = urlopen(
+    f'https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={your_api_key}&units={units}&lang={language}'
+)
+
+r = req.read()
+
+r = json.loads(r)
+r
+
+wh_param = {}
+wh_param['type_of_wheather'] = r['weather'][0]['main']  #for changing image background
+wh_param['wheather_description_for_user'] = r['weather'][0]['description']
+wh_param['temperature'] = r['main']['feels_like']
+wh_param['humidity'] = r['main']['humidity']
+wh_param['min_temperature'] = r['main']['temp_min']
+wh_param['max_temperature'] = r['main']['temp_max']
+wh_param['wind_speed'] = r['wind']['speed']
+wh_param['wind_direction'] = r['wind']['deg']  # in degrees metrological(? symbol in page)
+wh_param['cloudiness'] = r['clouds']['all']  #value in percent
+wh_param['city'] = r['name']
+wh_param['visibility'] = r['visibility']
+wh_param['sunrise'] = r['sys']['sunrise']
+wh_param['sunset'] = r['sys']['sunset']
+wh_param['time_of_update_utc'] = r['dt']
+
+utc_time = [wh_param['sunrise'],wh_param['sunset'],wh_param['time_of_update_utc']]
+utc_time_str = ['sunrise','sunset','time_of_update_time']
+converted_time = {}
+for i,j in list(zip(utc_time,utc_time_str)):
+    time = datetime.fromtimestamp(i).astimezone(tz.gettz(prefered_timezone))
+    converted_time[j] = str(time.strftime('%X'))
+    if j=='time_of_update_time':
+        converted_time['time_of_update_day'] = time.strftime('%x')
+        
+for i in converted_time:
+    wh_param[i] = converted_time[i]
