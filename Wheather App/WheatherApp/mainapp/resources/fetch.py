@@ -72,7 +72,7 @@ class API():
             time = datetime.fromtimestamp(i).astimezone(tz.gettz(self.__tz))
             converted_time[j] = str(time.strftime('%X'))
             if j=='time_of_update_time':
-                converted_time['time_of_update_day'] = time.strftime('%x')
+                converted_time['time_of_update_day'] = time.strftime("%d %b %Y")
                 
         for i in converted_time:
             wh_param[i] = converted_time[i]
