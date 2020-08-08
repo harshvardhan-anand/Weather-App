@@ -1,4 +1,3 @@
-from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen
 import json
 from datetime import datetime
@@ -15,7 +14,11 @@ class API():
         else:
             self.__city_name = user_pref['city_name'].replace(' ','%20')
 
-        self.api_key = 'your_api'
+        try:
+            self.api_key = None  # do e handling
+        except Exception as E:
+            print(E)
+
         self.__unit = user_pref['unit']
         self.__language = user_pref['language']
         self.__tz = user_pref['tz']
