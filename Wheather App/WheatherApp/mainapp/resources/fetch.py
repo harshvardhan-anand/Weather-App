@@ -32,11 +32,11 @@ class API():
 
     def __fetch_url(self):
         '''
-        city_name = Wheather of city_name will be displayed.
+        city_name = Weather of city_name will be displayed.
         unit = If unit is 'standard' then temperature will be in Kelvin, 
                if 'metric' then it will be in Celsius,
-               if 'inperial' then it will be in Fahrenheit.
-        language = Your prefered laguage.
+               if 'imperial' then it will be in Fahrenheit.
+        language = Your preffered language.
         pref_tz = Your prefered timezone for formatting your sunset, sunrise time.
         '''
         if self.__is_location_set:
