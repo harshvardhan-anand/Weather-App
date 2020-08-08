@@ -17,7 +17,12 @@ def homepage(request):
     form = forms.UserParam() # our form
     # creating this session as we will check weather a request is ajax or not
     request.session['is_ajax'] = 0
-    return render(request,'homepage/homepage.html',context={'form':form})
+    try:
+        alert = request.session['alert']
+        context={'form':form,'alert':alert}
+    except:
+        context={'form':form}
+    return render(request,'homepage/homepage.html',context=context)
 
 def weather(request):
     alert = {
@@ -28,7 +33,7 @@ def weather(request):
         # this exception block is required to block 404 error if user directly goes to 
         # http://127.0.0.1:8000/weather/ because then is_ajax session wont be set as he skipped 
         # homepage.
-        request.session['is_ajax']
+        request.session['is_ajax'] = 0
     except:
         redirect('/')
 
@@ -55,7 +60,8 @@ def weather(request):
                 # home page with alert fill city properly
                 alert['status'] = 1
                 alert['msg'] = 'Fill the prefered information properly'
-                return redirect('/', context={'dj_alert':alert})
+                request.session['alert'] = alert
+                return redirect('/')
                 
         # access the link and fetch the data 
         # wdata is a dictionary
@@ -66,7 +72,8 @@ def weather(request):
             # redirect to main page with alert no such city found
             alert['status'] = 1
             alert['msg'] = 'It seems you have misspelled your city. Please try once again.'
-            return redirect('/', context={'dj_alert':alert})
+            request.session['alert'] = alert
+            return redirect('/')
         else:
             if request.session['is_ajax']:
                 # Trigger this if ajax is used.
@@ -74,10 +81,7 @@ def weather(request):
                 return HttpResponse()
             else:
                 # Return this if city is used
-                return render(request, 'mainapp/mainapp.html',context={
-                    'wdata':wdata,
-                    'dj_alert':alert
-                })
+                return render(request, 'mainapp/mainapp.html',context={'wdata':wdata})
     else:
         # if request is a get request then check weather ajax is active or not as it is redirected 
         # from javascript code. If no ajax, then redirect them to home page.
@@ -85,11 +89,9 @@ def weather(request):
         if request.session['is_ajax']:
             request.session['is_ajax']=0
             wdata = request.session['wdata']
-            return render(request, 'mainapp/mainapp.html',context={
-                'wdata':wdata,
-                'dj_alert':alert
-            })
+            return render(request, 'mainapp/mainapp.html',context={'wdata':wdata})
         else:
             alert['status'] = 1
             alert['msg'] = 'Hey man!! What are you tring to do? Follow the procedure.'
-            return redirect('/', context={'dj_alert':alert})
+            request.session['alert'] = alert
+            return redirect('/')
