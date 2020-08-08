@@ -13,8 +13,8 @@ class UserParam(forms.Form):
     R = utility.Resources()
     city_name = forms.CharField(label='City Name')
     unit = forms.ChoiceField(label='Unit', 
-                                choices=R.unit_choice,
-                                initial='celsius')
+                            choices=R.unit_choice,
+                            initial='celsius')
     language = forms.ChoiceField(label='Language', 
                                 choices=R.lang_choice,
                                 initial='en')
