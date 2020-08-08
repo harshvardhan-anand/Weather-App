@@ -1,21 +1,47 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <style>
+       *{
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+      }
+      body {
+        height: 100vh;
+        background-color: #36d1dc;
+        background-image: linear-gradient(#36d1dc, #5b86e5);
+      }
+      h1 {
+        color: #fff;
+        text-align: center;
+        margin: 2rem;
+        font-size: 3rem;
+      }
+      input[type="submit"]{
+          border: none;
+          background-color: #21428a;
+          color: #fff;
+          padding: 1rem;
+          margin: 0.5rem;
+          border-radius: 0.5rem;
+      }
+    </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{% static 'homepage/location.js' %}"></script>
-</head>
-<body>
-    <h1>This is a Homepage</h1>
+  </head>
+  <body>
+    <h1>Weather App with Django</h1>
     <form action="{% url 'mainapp:wheather' %}" method="POST">
-        {{form.as_p}}
-        {% csrf_token %}
-        <input type="submit" value="submit">
+      {{form.as_p}} {% csrf_token %}
+      <input type="submit" value="submit" />
     </form>
 
-    <input type="submit" onclick="getLocation()" value="Detect by Location">
-</body>
+    <input type="submit" onclick="getLocation()" value="Detect by Location" />
+  </body>
 </html>
