@@ -18,9 +18,17 @@ def homepage(request):
     # creating this session as we will check weather a request is ajax or not
     request.session['is_ajax'] = 0
     try:
-        alert = request.session['alert']
+        # alert variable is a reffrence to request.session['alert'], not a copy of it.
+        # as it is a dictionary.
+        # So we need to create a deep copy of session into variable alert and then we will 
+        # set session['alert']['status']=0. It is required so that we wont get alert even if we make a 
+        # get request to homepage after getting the alert as showing alert depends on 
+        # its status(see html page alert.status)
+        alert = dict(request.session['alert'])
         context={'form':form,'alert':alert}
-    except:
+        request.session['alert']['status'] = 0
+    except Exception as E:
+        print(E)
         context={'form':form}
     return render(request,'homepage/homepage.html',context=context)
 
