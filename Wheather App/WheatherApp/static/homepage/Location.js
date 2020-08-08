@@ -45,7 +45,7 @@ function send_data(loc_data){
     // sending AJAX request to homepage.
     // we need to set csrf token to the header of request before sending the it.
     $.ajax({
-        url:'wheather/',
+        url:'weather/',
         type:'POST',
         beforeSend:(request)=>{
             request.setRequestHeader("X-CSRFToken", csrftoken)
@@ -56,7 +56,7 @@ function send_data(loc_data){
         }, // data to be sent
         success:function(response){
             console.log('Location set')
-            window.location.href = '/wheather/'
+            window.location.href = '/weather/'
         }, // if data is successfully sent then what to do
         error:function(){
             console.log('Location access denied')

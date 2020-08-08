@@ -1,0 +1,28 @@
+<!-- Parse dictionary in Template -->
+<!-- https://stackoverflow.com/a/1724201/11121579 -->
+<!-- https://docs.djangoproject.com/en/3.0/ref/templates/api/#variables-and-lookups -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main app</title>
+</head>
+<script>alert('hi')</script>
+<body>
+    <h1>City: {{wdata.city}}<br>
+        Weather type: {{wdata.weather_description_for_user}}<br>
+        Temperature: {{wdata.temperature}} K<br>
+        Min Temperature: {{wdata.min_temperature}} K<br>
+        Max Temperature: {{wdata.max_temperature}} K<br>
+        Sunrise Time: {{wdata.sunrise}}<br>
+        Sunset Time: {{wdata.sunset}}<br>
+        Cloudiness: {{wdata.cloudiness}}%<br>
+        Visibility: {{wdata.visibility}} m<br>
+        Wind Speed: {{wdata.wind_speed}} m/s<br>
+        Wind Direction: {{wdata.wind_direction}} deg<br><br>
+        Updated on {{wdata.time_of_update_day}} at {{wdata.time_of_update_time}}<br>
+    </h1>
+</body>
+</html>

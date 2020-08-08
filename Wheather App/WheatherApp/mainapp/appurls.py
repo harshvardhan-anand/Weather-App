@@ -4,5 +4,5 @@ from mainapp import views
 app_name = 'mainapp'
 
 urlpatterns = [
-    path('',views.wheather,name='wheather')
+    path('',views.weather,name='weather')
 ]

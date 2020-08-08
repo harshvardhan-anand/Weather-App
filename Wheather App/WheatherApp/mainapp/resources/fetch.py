@@ -46,12 +46,12 @@ class API():
 
         return json.loads(req.read())
     
-    def wheather_data(self):
-        '''This method is to get a dictionary of all the required wheather data'''
+    def weather_data(self):
+        '''This method is to get a dictionary of all the required weather data'''
         r = self.__fetch_url()  # raw json data
         wh_param = {}
-        wh_param['type_of_wheather'] = r['weather'][0]['main']  #for changing image background
-        wh_param['wheather_description_for_user'] = r['weather'][0]['description']
+        wh_param['type_of_weather'] = r['weather'][0]['main']  #for changing image background
+        wh_param['weather_description_for_user'] = r['weather'][0]['description']
         wh_param['temperature'] = r['main']['feels_like']
         wh_param['humidity'] = r['main']['humidity']
         wh_param['min_temperature'] = r['main']['temp_min']
@@ -72,7 +72,7 @@ class API():
             time = datetime.fromtimestamp(i).astimezone(tz.gettz(self.__tz))
             converted_time[j] = str(time.strftime('%X'))
             if j=='time_of_update_time':
-                converted_time['time_of_update_day'] = time.strftime('%x')
+                converted_time['time_of_update_day'] = time.strftime("%d %b %Y")
                 
         for i in converted_time:
             wh_param[i] = converted_time[i]
