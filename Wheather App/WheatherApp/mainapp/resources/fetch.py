@@ -14,11 +14,7 @@ class API():
         else:
             self.__city_name = user_pref['city_name'].replace(' ','%20')
 
-        try:
-            self.api_key = None  # do e handling
-        except Exception as E:
-            print(E)
-
+        self.__api_key = 'ef9bfadddd3a930acfa7d1ee64fc0bef' 
         self.__unit = user_pref['unit']
         self.__language = user_pref['language']
         self.__tz = user_pref['tz']
@@ -43,9 +39,9 @@ class API():
         pref_tz = Your prefered timezone for formatting your sunset, sunrise time.
         '''
         if self.__is_location_set:
-            req = urlopen(f'https://api.openweathermap.org/data/2.5/weather?lat={self.__latitude}&lon={self.__longitude}&appid={self.api_key}&units={self.__unit}&lang={self.__language}')
+            req = urlopen(f'https://api.openweathermap.org/data/2.5/weather?lat={self.__latitude}&lon={self.__longitude}&appid={self.__api_key}&units={self.__unit}&lang={self.__language}')
         else:
-            req = urlopen(f'https://api.openweathermap.org/data/2.5/weather?q={self.__city_name}&appid={self.api_key}&units={self.__unit}&lang={self.__language}')
+            req = urlopen(f'https://api.openweathermap.org/data/2.5/weather?q={self.__city_name}&appid={self.__api_key}&units={self.__unit}&lang={self.__language}')
 
         return json.loads(req.read())
     
