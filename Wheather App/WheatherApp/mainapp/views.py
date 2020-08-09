@@ -28,7 +28,6 @@ def homepage(request):
         context={'form':form,'alert':alert}
         request.session['alert']['status'] = 0
     except Exception as E:
-        print(E)
         context={'form':form}
     return render(request,'homepage/homepage.html',context=context)
 
@@ -41,9 +40,9 @@ def weather(request):
         # this exception block is required to block 404 error if user directly goes to 
         # http://127.0.0.1:8000/weather/ because then is_ajax session wont be set as he skipped 
         # homepage.
-        request.session['is_ajax'] = 0
+        request.session['is_ajax']
     except:
-        redirect('/')
+        return redirect('/')
 
     if request.method=='POST' and request.session['is_ajax']==0:
         # Here it is required to check is_ajax because if user creates a post request from console 
@@ -55,14 +54,12 @@ def weather(request):
             # check weather the request is ajax or not.
             request.session['is_ajax'] = 1
             access = fetch.API(request.POST, is_location_set=1)
-            access.api_key = 'ef9bfadddd3a930acfa7d1ee64fc0bef'
         else:
             form = forms.UserParam(request.POST)
             # checking whether form is valid or not
             if form.is_valid():
                 user_preference = form.cleaned_data
                 access = fetch.API(user_preference,is_location_set=0)
-                access.api_key = 'ef9bfadddd3a930acfa7d1ee64fc0bef' #your API key
             else:
                 # form is invalid then redirect them to
                 # home page with alert fill city properly
